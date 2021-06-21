@@ -3,7 +3,7 @@
     <a-button @click="showModal()" type="primary">
       Create
     </a-button>
-    <a-table :columns="columns" :data-source="data">
+    <a-table :loading="$fetchState.pending" :columns="columns" :data-source="data">
       <span slot="media" slot-scope="text, record">
         <a-avatar
           v-if="record.media.length > 0"

@@ -60,7 +60,7 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit" class="login-form-button">
+          <a-button :loading="busy" type="primary" html-type="submit" class="login-form-button">
             Log in
           </a-button>
         </a-form-item>
@@ -78,7 +78,8 @@ export default {
   },
   data() {
     return {
-      errMessage: null
+      errMessage: null,
+      busy: false,
     };
   },
 
@@ -93,6 +94,7 @@ export default {
       e.preventDefault();
       this.form.validateFields(async (err, values) => {
         if (!err) {
+          this.busy = true
           try {
             const res = await axios({
               method: "post",
@@ -111,7 +113,10 @@ export default {
               description: "Successful login",
               icon: <a-icon type="smile" style="color: #108ee9" />
             });
+
+            this.busy = false
           } catch (error) {
+            this.busy = false
             this.errMessage =
               error.response.data?.data[0]?.messages[0]?.message;
           }
